@@ -1,0 +1,43 @@
+<%- include('partials/header.ejs') %>
+
+    <% if (locals.listDetails) { %>
+        <div class="main-div">
+            <div class="title">
+                <h1>
+                    <%= listDetails.listName %>
+
+                </h1>
+            </div>
+            <div class="list-container">
+                <% if (listDetails.tasks.length> 0) { %>
+                    <% for( let taskNo=0; taskNo < listDetails.tasks.length; taskNo++ ) { %>
+                        <div class="list-item">
+                            <form action="/deleteTask" method="post">
+                                <input type="checkbox" name="completed"
+                                    onClick="document.getElementById('<%= taskNo %>').classList.toggle('check');"
+                                    class="chkbox">
+                                <p id="<%= taskNo %>">
+                                    <%=listDetails.tasks[taskNo]%>
+                                </p>
+                                <input type="hidden" name="listAddr" value="<%= listDetails.listAddr %>">
+                                <input type="hidden" name="listID" value="<%= listDetails.listID %>">
+                                <input type="hidden" name="taskID" value="<%= taskNo %>">
+                                <button class="del-button" type="submit"><i class="fa-regular fa-trash-can fa-xl"
+                                        style="color: #ffffff;"></i></button>
+                            </form>
+                        </div>
+                        <% } %>
+                            <% } %>
+            </div>
+            <div>
+                <form action="/addTask" method="post">
+                    <input type="hidden" name="listAddr" value="<%= listDetails.listAddr %>">
+                    <input type="hidden" name="listID" value="<%= listDetails.listID %>">
+                    <input type="text" name="task" placeholder="Add a task" required>
+                    <button type="submit" class="submit-btn">+</button>
+                </form>
+            </div>
+        </div>
+
+        <% } %>
+            <%- include('partials/footer.ejs') %>
